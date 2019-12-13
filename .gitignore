@@ -1,0 +1,22 @@
+*.swp
+.DS_Store
+.DS_Store?
+*~
+
+.metadata/
+data/
+tests/
+temp/
+web/*
+xava/*
+
+!xava/application.xml
+!xava/controllers.xml
+
+# swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+act.sh
