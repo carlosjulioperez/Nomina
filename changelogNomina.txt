@@ -1,0 +1,4 @@
+Nomina
+
+	* Importar desde CSV:
+		Usando SQuirreL
