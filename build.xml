@@ -9,7 +9,8 @@
 	
     <!-- 2019-10-10 Agregado por carper -->
 	<property name="webinf.dir"    value="web/WEB-INF" />
-    
+	<property name="sql.jar"       value="../OpenXava/lib/hsqldb.jar" />
+
     <!-- 
 	Compile all .java and .groovy 
 	Not needed to call it if you work inside Eclipse
@@ -62,7 +63,7 @@
 	<target name="updateSchema">
 		<ant antfile="${openxava.base.dir}/OpenXava/build.xml" target="updateSchemaJPA">			
 			<property name="persistence.unit" value="junit"/>
-			<property name="schema.path" value="../OpenXava/lib/hsqldb.jar"/>
+            <property name="schema.path" value="${sql.jar}"/>
 		</ant>
 	</target>	
 	
@@ -81,7 +82,32 @@
 		<pathelement location="${class.dir}/" />
 	</path>
 
-	<target name="test" depends="compile">
+	<property name="sql.driver" value="org.hsqldb.jdbcDriver"/>
+	<property name="sql.url" 	value="jdbc:hsqldb:hsql://localhost:1666"/>
+	<property name="sql.user" 	value="sa"/>
+	<property name="sql.pass" 	value=""/> 
+    
+	<target name="sql-query">
+		<sql classpath="${sql.jar}"
+			driver="${sql.driver}" 
+			url="${sql.url}" 
+			userid="${sql.user}" password="${sql.pass}" 
+			print="yes"
+            src="etc/sql/query.sql">
+		</sql>
+    </target>
+        
+	<target name="sql-update">
+		<sql classpath="${sql.jar}"
+			driver="${sql.driver}" 
+			url="${sql.url}" 
+			userid="${sql.user}" password="${sql.pass}" 
+			print="yes"
+            src="etc/sql/update.sql">
+		</sql>
+    </target>
+
+    <target name="test" depends="compile">
 		
 		<mkdir dir="${represult.dir}"/>
 
