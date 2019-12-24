@@ -5,9 +5,11 @@ import org.openxava.annotations.*
 import org.openxava.model.*
 
 @Entity
-class Ciudad extends Identifiable{
+class Formula extends Identifiable{
 
     @Column(length=30) @Required
     String descripcion
+    
+    @Stereotype("MEMO") @Required
+    String formula
 }
-

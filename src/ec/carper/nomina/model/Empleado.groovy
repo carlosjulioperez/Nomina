@@ -3,7 +3,7 @@ package ec.carper.nomina.model
 import java.math.BigDecimal;
 import java.util.List;
 
-import ec.carper.nomina.model.Ciudad
+import ec.carper.nomina.model.Canton
 import ec.carper.nomina.model.Provincia
 import java.time.LocalDate
 import javax.persistence.*
@@ -17,9 +17,9 @@ import org.openxava.model.*
 @View(members=  """
     tabDatosPersonales{
         cedula, fechaNacimiento;
-        apellidos,nombres;
+        apellidos;nombres;
         email;
-        provincia,ciudad;
+        provincia;canton;parroquia;
         direccion;
         telefono;
         estadoCivil
@@ -53,7 +53,11 @@ class Empleado extends Identifiable{
     
     @ManyToOne(fetch=FetchType.LAZY)
     @DescriptionsList
-    Ciudad ciudad
+    Canton canton
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+    @DescriptionsList
+    Parroquia parroquia
     
     @Column(length=100) @Required
     String direccion

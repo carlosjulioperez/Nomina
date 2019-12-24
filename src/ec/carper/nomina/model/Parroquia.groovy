@@ -5,8 +5,10 @@ import org.openxava.annotations.*
 import org.openxava.model.*
 
 @Entity
-class Provincia extends Identifiable{
+class Parroquia extends Identifiable{
 
-    @Column(length=30) @Required
+    @Column(length=130) @Required
     String descripcion
 }
+
+
