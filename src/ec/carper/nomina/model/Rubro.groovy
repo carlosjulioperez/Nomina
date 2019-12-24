@@ -9,4 +9,7 @@ class Rubro extends Identifiable{
 
     @Column(length=30) @Required
     String descripcion
+
+    @Required
+    boolean suma
 }

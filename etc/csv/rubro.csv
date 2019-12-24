@@ -1,5 +1,5 @@
-id,descripcion
-01,INGRESOS
-02,EGRESOS,
-03,PROVISIONES
-04,DESCUENTOS
+id,descripcion,suma
+01,INGRESOS,true
+02,EGRESOS,false
+03,PROVISIONES,false
+04,DESCUENTOS,false
