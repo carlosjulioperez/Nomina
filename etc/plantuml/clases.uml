@@ -1,0 +1,18 @@
+@startuml
+
+' https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-aggregation-vs-composition/
+
+hide members
+
+Empleado "*" -- "1" Departamento: asignado
+Empleado "*" -- "1" EstadoCivil: tiene
+Empleado "*" -- "1" Provincia: pertenece
+Empleado "*" -- "1" Cantón: pertenece
+Empleado "*" -- "1" Parroquia: pertenece
+
+Formulacion *-- FormulacionDetalle
+
+FormulacionDetalle "*" -- "1" Formula: contiene
+FormulacionDetalle "*" -- "1" Rubro: contiene
+
+@enduml

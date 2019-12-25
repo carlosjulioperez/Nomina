@@ -1,0 +1,25 @@
+@startuml 
+
+' https://github.com/Roemer/plantuml-office
+
+!include <tupadr3/common> 
+!include <office/Servers/database_server> 
+!include <office/Servers/application_server> 
+!include <office/Clouds/cloud>
+!include <office/Concepts/navigation>
+
+' Used to center the label under the images
+skinparam defaultTextAlignment center
+
+title Arquitectura de la aplicación web
+package "Nómina" { 
+    OFF_DATABASE_SERVER(db,Servidor de \nBase de datos \nPostgreSQL) 
+    OFF_APPLICATION_SERVER(app,Servidor de \naplicación \nWeb) 
+    OFF_CLOUD(cloud,Nube) 
+    OFF_NAVIGATION(navigation,Navegador\nWeb) 
+    db <-> app 
+    app <--> cloud
+    cloud <.left.> navigation
+}
+
+@enduml
