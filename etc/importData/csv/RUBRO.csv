@@ -1,4 +1,4 @@
-id,descripcion,suma
+ID,DESCRIPCION,SUMA
 01,INGRESOS,true
 02,EGRESOS,false
 03,PROVISIONES,false

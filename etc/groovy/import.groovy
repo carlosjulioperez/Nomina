@@ -71,6 +71,7 @@ private void insertFile(def header, def data, def name){
     def table = prefix + name
     println "Procesando ${table}..."
 
+    boolean flag = true
     Sql conn = Sql.newInstance(properties.db_url,properties.db_user,properties.db_password)
     data.each { rows ->
         String columns = String.join(",", header)
@@ -79,6 +80,11 @@ private void insertFile(def header, def data, def name){
         
         //String query = "INSERT INTO ${name} (${columns}) VALUES (${values})"
     
+        if (flag){
+            conn.execute("TRUNCATE TABLE "+table+" CASCADE")
+            flag = false
+        }
+        
         def query = "INSERT INTO " + table + " (${columns}) VALUES (${values})"
         //println query
         conn.execute(query)
