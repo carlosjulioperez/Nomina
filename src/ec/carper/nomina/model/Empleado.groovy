@@ -48,15 +48,15 @@ class Empleado extends Identifiable{
     String email 
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @DescriptionsList
+    @DescriptionsList @NoCreate @NoModify 
     Provincia provincia
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @DescriptionsList
+    @DescriptionsList @NoCreate @NoModify 
     Canton canton
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @DescriptionsList
+    @DescriptionsList @NoCreate @NoModify 
     Parroquia parroquia
     
     @Column(length=100) @Required

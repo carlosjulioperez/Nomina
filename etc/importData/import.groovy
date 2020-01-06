@@ -22,12 +22,12 @@ def path = new File("csv")
 
 // Defino el orden para importar los archivos csv
 def lista = [
-    "CANTON",
     "DEPARTAMENTO",
     "ESTADOCIVIL",
     "FORMULA",
     "PARROQUIA",
     "PROVINCIA",
+    "CANTON",
     "RUBRO",
     "EMPLEADO",
     "FORMULACION",
