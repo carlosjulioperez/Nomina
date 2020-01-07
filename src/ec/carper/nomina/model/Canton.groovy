@@ -7,32 +7,23 @@ import org.openxava.model.*
 
 // https://www.openxava.org/OpenXavaDoc/docs/three-level-composite-key_en.html
 
-@Tab(properties="provincia.descripcion,descripcion")
-
-// @Tab(properties="provincia.descripcion,descripcion",
+@Tab(properties="provincia.provinciaNombre,cantonNombre")
 //     defaultOrder="${provincia.descripcion},${descripcion}")
 
 @Entity
 @IdClass(CantonId.class)
-// @View(members=""" provinciaId, cantonId; descripcion; """)
-// @Table(
-//     uniqueConstraints={
-//         @UniqueConstraint(columnNames={"ID","DESCRIPCION"})
-//     }
-// )
 class Canton{
     
-    // @Id @Column(name="PROVINCIA_ID", length=2)
-    // String provinciaId
     @Id
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="PROVINCIA_ID",referencedColumnName="ID",nullable=false,unique=false,insertable=true,updatable=true)
-    @DescriptionsList(descriptionProperties="DESCRIPCION")
+    @JoinColumn(name="PROVINCIA_ID",referencedColumnName="PROVINCIA_ID",nullable=false,unique=false,insertable=true,updatable=true)
+    @DescriptionsList(descriptionProperties="provinciaNombre")
+    @NoCreate @NoModify 
     Provincia provincia
 
-    @Id @Column(length=2)
+    @Id @Column(name="CANTON_ID",length=2)
     String cantonId
 
-    @Column(length=40) @Required
-    String descripcion
+    @Column(name="CANTON_NOMBRE",length=40,nullable=false) @Required
+    String cantonNombre
 }

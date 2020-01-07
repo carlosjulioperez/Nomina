@@ -3,17 +3,18 @@ package ec.carper.nomina.model
 import javax.persistence.*
 
 import org.openxava.annotations.*
-import org.openxava.model.*
 
-// https://www.openxava.org/OpenXavaDoc/docs/three-level-composite-key_en.html
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
-@Tab(properties="canton.provincia.provinciaNombre,canton.cantonNombre,parroquiaNombre")
-
-@Entity
-@IdClass(ParroquiaId.class)
-@Table(uniqueConstraints=@UniqueConstraint(columnNames=["PROVINCIA_ID","CANTON_ID","PARROQUIA_NOMBRE"]))
-class Parroquia {
+@ToString
+@EqualsAndHashCode
+// https://www.tothenew.com/blog/groovy-annotations-for-tostring-and-equalsandhashcode/
+// http://docs.groovy-lang.org/latest/html/api/groovy/transform/ToString.html
+class ParroquiaId implements java.io.Serializable {
     
+    private static final long serialVersionUID = 4L;
+  
     @Id
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumns([ 
@@ -26,7 +27,4 @@ class Parroquia {
 
     @Id @Column(name="PARROQUIA_ID",length=2)
     String parroquiaId
-
-    @Column(name="PARROQUIA_NOMBRE",length=100,nullable=false) @Required
-    String parroquiaNombre
 }
