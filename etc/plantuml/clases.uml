@@ -4,10 +4,11 @@
 
 hide members
 
+Cantón "*" -- "1" Provincia: pertenece
+Parroquia "*" -- "1" Cantón: pertenece
+
 Empleado "*" -- "1" Departamento: asignado
 Empleado "*" -- "1" EstadoCivil: tiene
-Empleado "*" -- "1" Provincia: pertenece
-Empleado "*" -- "1" Cantón: pertenece
 Empleado "*" -- "1" Parroquia: pertenece
 
 Formulacion *-- FormulacionDetalle

@@ -7,8 +7,8 @@ import org.openxava.model.*
 
 // https://www.openxava.org/OpenXavaDoc/docs/three-level-composite-key_en.html
 
-@Tab(properties="provincia.provinciaNombre,cantonNombre")
-//     defaultOrder="${provincia.descripcion},${descripcion}")
+@Tab(properties="provincia.provinciaNombre,cantonNombre",
+    defaultOrder='${provincia.provinciaNombre},${cantonNombre}')
 
 @Entity
 @IdClass(CantonId.class)

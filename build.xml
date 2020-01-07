@@ -130,5 +130,9 @@
 			</batchtest>
 		</junit>
 	</target>
+
+    <target name="deleteClasses">
+        <delete dir="${class.dir}/ec"/>
+	</target>
 						
 </project>

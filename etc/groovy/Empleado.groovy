@@ -19,6 +19,7 @@ import org.openxava.model.*
         cedula, fechaNacimiento;
         apellidos;nombres;
         email;
+        provincia, canton;
         parroquia;
         direccion;
         telefono;
@@ -48,7 +49,15 @@ class Empleado extends Identifiable{
     String email 
 
     @ManyToOne(fetch=FetchType.LAZY) @NoCreate @NoModify 
-    @DescriptionsList(descriptionProperties="canton.provincia.provinciaNombre,canton.cantonNombre,parroquiaNombre")
+    @DescriptionsList(descriptionProperties="provinciaNombre")
+    Provincia provincia
+    
+    @ManyToOne(fetch=FetchType.LAZY) @NoCreate @NoModify 
+    @DescriptionsList(descriptionProperties="cantonNombre",depends="provincia",condition='${provincia.provinciaId} = ?')
+    Canton canton
+    
+    @ManyToOne(fetch=FetchType.LAZY) @NoCreate @NoModify 
+    @DescriptionsList(descriptionProperties="parroquiaNombre",depends="canton",condition='${parroquia.canton.cantonId} = ?')
     Parroquia parroquia
     
     @Column(length=100) @Required
