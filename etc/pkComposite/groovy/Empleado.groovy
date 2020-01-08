@@ -1,5 +1,10 @@
 package ec.carper.nomina.model
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import ec.carper.nomina.model.Canton
+import ec.carper.nomina.model.Provincia
 import java.time.LocalDate
 import javax.persistence.*
 import javax.validation.constraints.Digits
@@ -43,7 +48,7 @@ class Empleado extends Identifiable{
     String email 
 
     @ManyToOne(fetch=FetchType.LAZY) @NoCreate @NoModify 
-    @DescriptionsList(descriptionProperties="canton.provincia.descripcion,canton.descripcion,descripcion")
+    @DescriptionsList(descriptionProperties="canton.provincia.provinciaNombre,canton.cantonNombre,parroquiaNombre")
     Parroquia parroquia
     
     @Column(length=100) @Required
