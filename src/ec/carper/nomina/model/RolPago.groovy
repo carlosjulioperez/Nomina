@@ -10,7 +10,7 @@ import org.openxava.model.*
 @Tab(properties="""
     fecha,descripcion
 """)
-@View(members=  """fecha;detalles""")
+@View(members=  """fecha;descripcion;detalles""")
 class RolPago extends Identifiable{
     @Version
     private Integer version;

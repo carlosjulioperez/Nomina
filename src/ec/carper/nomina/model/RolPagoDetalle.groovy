@@ -9,14 +9,17 @@ import org.openxava.model.*
 @Entity
 @View(members="""
     empleado;
+    diasTrabajados
 """)
 class RolPagoDetalle extends Identifiable {
 
     @ManyToOne //Sin lazy fetching porque falla al quitar un detalle desde el padre
     RolPago rolPago
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @DescriptionsList(descriptionProperties="apellidos,nombres")
     Empleado empleado
 
     @Required
-    int diasTrabajados 
+    Integer diasTrabajados 
 }
