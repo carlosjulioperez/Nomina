@@ -9,21 +9,24 @@ import org.openxava.model.*
 
 @Entity
 @Tab(properties="""cedula,apellidos,nombres,email""")
-@View(members=  """
-    tabDatosPersonales{
-        cedula, fechaNacimiento;
-        apellidos;nombres;
-        email;
-        parroquia;
-        direccion;
-        telefono;
-        estadoCivil
-    }
-    tabSueldo{
-        departamento;
-        sueldo
-    }
-""")
+@Views([
+    @View(members=  """
+        tabDatosPersonales{
+            cedula, fechaNacimiento;
+            apellidos;nombres;
+            email;
+            parroquia;
+            direccion;
+            telefono;
+            estadoCivil
+        }
+        tabSueldo{
+            departamento;
+            sueldo
+        }
+    """),
+    @View(name="simple", members="apellidos,nombres;sueldo")
+])
 class Empleado extends Identifiable{
 
     @Column(length=10) @Required

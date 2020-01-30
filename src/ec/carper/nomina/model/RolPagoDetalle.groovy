@@ -16,8 +16,10 @@ class RolPagoDetalle extends Identifiable {
     @ManyToOne //Sin lazy fetching porque falla al quitar un detalle desde el padre
     RolPago rolPago
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @DescriptionsList(descriptionProperties="apellidos,nombres")
+    // @ManyToOne(fetch=FetchType.LAZY)
+    // @DescriptionsList(descriptionProperties="apellidos,nombres")
+    @ManyToOne
+    @ReferenceView("simple")
     Empleado empleado
 
     @Required
