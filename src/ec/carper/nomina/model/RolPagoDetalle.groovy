@@ -43,13 +43,14 @@ class RolPagoDetalle extends Identifiable {
     // TODO VALIDAR HORAS EXTRAS
     @Depends("horas50,horas100") //Propiedad calculada
     BigDecimal getCalTotalHorasExtras(){
-        return (horas50 && horas100) ? (horas50*1.5)+(horas100*2): 0
+        BigDecimal val50 = horas50 ?:0
+        BigDecimal val100 = horas100 ?:0
+        return val50 * 1.5 + val100 * 2
     }
     
     @Depends("calTotalHorasExtras") //Propiedad calculada
     BigDecimal getCalValorHorasExtras(){
-        return (calTotalHorasExtras) ? 
-        (empleado.sueldo/30/8*calTotalHorasExtras).setScale(2, BigDecimal.ROUND_HALF_UP) : 0
+        return (empleado.sueldo/30/8*calTotalHorasExtras).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
     BigDecimal comision
@@ -57,32 +58,29 @@ class RolPagoDetalle extends Identifiable {
     @Depends("calSueldoGanado, calValorHorasExtras, comision") //Propiedad calculada
     BigDecimal getCalTotalIngresos(){
         BigDecimal valComision = comision ?: 0
-        return (calSueldoGanado && calValorHorasExtras ) ? 
-        (calSueldoGanado + calValorHorasExtras + valComision) : 0
+        return calSueldoGanado + calValorHorasExtras + valComision
     }
     
     @Depends("calTotalIngresos")
     BigDecimal getCalAporteIESS(){
-        return (calTotalIngresos) ? 
-        (calTotalIngresos*9.45/100).setScale(2, BigDecimal.ROUND_HALF_UP) : 0
+        return (calTotalIngresos*9.45/100).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
     BigDecimal prestamosQuirografarios
     
     BigDecimal anticiposPrestamos
     
-    @Depends("calAporteIESS")
+    @Depends("calAporteIESS,prestamosQuirografarios,anticiposPrestamos")
     BigDecimal getCalTotalDescuentos(){
         
         BigDecimal valPQ = prestamosQuirografarios ?: 0
         BigDecimal valAP = anticiposPrestamos ?: 0
 
-        return (calAporteIESS) ? calAporteIESS + valPQ + valAP: 0
+        return (calAporteIESS + valPQ + valAP)
     }
     
     @Depends("calTotalIngresos,calTotalDescuentos")
     BigDecimal getCalLiquidoPagar(){
-        return (calTotalIngresos && calTotalDescuentos) ? 
-        calTotalIngresos - calTotalDescuentos : 0
+        return (calTotalIngresos - calTotalDescuentos)
     }
 }
