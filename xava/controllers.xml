@@ -22,4 +22,11 @@
 	</controller>    
     -->
     
+    <controller name="Preferencias">
+    	<extends controller="Typical"/>
+    	<action name="new" icon="library-plus" keystroke="Control N"
+        	class="ec.carper.nomina.actions.NuevaPreferencia">
+    	</action>
+    </controller>   
+
 </controllers>

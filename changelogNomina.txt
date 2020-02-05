@@ -2,3 +2,12 @@ Nomina
 
 	* Importar desde CSV:
 		Usando SQuirreL
+
+	* Vacaciones:
+		https://smsecuador.ec/como-se-calculan-las-vacaciones/
+
+	* Fondos de reserva:
+		http://www.ecuadorlegalonline.com/laboral/fondos-de-reserva/
+
+	* Aportes IESS:
+		http://www.ecuadorlegalonline.com/laboral/calculadora-aportaciones-iess/

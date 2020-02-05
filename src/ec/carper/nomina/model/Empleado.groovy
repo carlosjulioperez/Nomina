@@ -22,10 +22,11 @@ import org.openxava.model.*
         }
         tabSueldo{
             departamento;
-            sueldo
+            sueldo;
+            cargaFamiliar;
         }
     """),
-    @View(name="simple", members="apellidos,nombres;sueldo")
+    @View(name="simple", members="apellidos,nombres,cargaFamiliar,sueldo")
 ])
 class Empleado extends Identifiable{
 
@@ -36,10 +37,10 @@ class Empleado extends Identifiable{
     @Required
     LocalDate fechaNacimiento
 
-    @Column(length=40) @Required
+    @Column(length=40) @DisplaySize(20) @Required
     String apellidos
 
-    @Column(length=40) @Required
+    @Column(length=40) @DisplaySize(20) @Required
     String nombres
 
     @Stereotype("EMAIL") @Required
@@ -56,15 +57,20 @@ class Empleado extends Identifiable{
     String telefono
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @DescriptionsList
+    @DescriptionsList @NoCreate @NoModify 
     EstadoCivil estadoCivil
     
     @ManyToOne(fetch=FetchType.LAZY)
-    @DescriptionsList
+    @DescriptionsList @NoCreate @NoModify 
     Departamento departamento
 
     //@Digits(integer=4,fraction=2) 
-    @Stereotype("MONEY") @Required
+    @Stereotype("MONEY") @DisplaySize(10) @Required
     BigDecimal sueldo
+
+    @DisplaySize(5)
+    Integer cargaFamiliar
+
+    Boolean pagoMensual13
 
 }

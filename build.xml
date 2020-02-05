@@ -118,9 +118,10 @@
 				<!-- <formatter type="xml" /> -->
 				<fileset dir="${class.dir}">
 					<!-- <include name="**/*Test.class" /> -->
-					<include name="**/ProvinciaTest.class" />
+					<include name="**/PreferenciasTest.class" />
                     
                     <!--
+					<include name="**/ProvinciaTest.class" />
 					<include name="**/CodeTest.class" />
 					<exclude name="**/HibernateTest.class" />
 					<exclude name="**/SpringTest.class" />
