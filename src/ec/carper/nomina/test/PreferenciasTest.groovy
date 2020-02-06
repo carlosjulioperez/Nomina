@@ -1,7 +1,6 @@
 package ec.carper.nomina.test
 
 import ec.carper.nomina.model.Preferencias
-import ec.carper.nomina.util.Util
 import org.openxava.tests.*
 
 class PreferenciasTest extends ModuleTestBase {
@@ -11,8 +10,8 @@ class PreferenciasTest extends ModuleTestBase {
     }
  
     void testPreferencias(){
-        Preferencias p = Util.instance.getPreferencias()
-        println p.valorCargaSubsidioFamiliar
+        Preferencias preferencias = new Preferencias().getPreferencias()
+        println preferencias.valorCargaSubsidioFamiliar
     }
 }
 

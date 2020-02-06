@@ -65,11 +65,11 @@ class Empleado extends Identifiable{
     Departamento departamento
 
     //@Digits(integer=4,fraction=2) 
-    @Stereotype("MONEY") @DisplaySize(10) @Required
+    @Stereotype("MONEY") @Required
     BigDecimal sueldo
 
-    @DisplaySize(5)
-    Integer cargaFamiliar
+    @Column(length=2) @Required
+    int cargaFamiliar
 
     Boolean pagoMensual13
 

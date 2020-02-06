@@ -25,7 +25,7 @@ class RolPago extends Identifiable{
     @OneToMany (mappedBy="rolPago", cascade=CascadeType.ALL)
     @ListProperties("""
         empleado.apellidos,empleado.nombres,
-        diasTrabajados,empleado.sueldo,calSueldoGanado,horas50,horas100,calTotalHorasExtras,calValorHorasExtras,comision,calSubsidioFamiliar,calDecimoTercero,calDecimoCuarto,calVacaciones,calFondosReserva,calTotalIngresos,calAporteIESS,prestamosQuirografarios,anticiposPrestamos,calTotalDescuentos,calLiquidoPagar
+        diasTrabajados,empleado.sueldo,calSueldoGanado,horas50,horas100,calTotalHorasExtras,calValorHorasExtras,comision,calSubsidioFamiliar,calDecimoTercero,calDecimoCuarto,calVacaciones,calFondosReserva,calTotalIngresos,calAporteIESSPersonal,prestamosQuirografarios,anticiposPrestamos,calTotalDescuentos,calLiquidoPagar,calAporteIESSPatronal
     """)
     Collection<RolPagoDetalle>detalles
 

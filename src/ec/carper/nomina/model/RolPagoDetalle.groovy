@@ -1,7 +1,5 @@
 package ec.carper.nomina.model
 
-import ec.carper.nomina.util.Util
-
 import java.time.LocalDate
 import javax.persistence.*
 import org.openxava.annotations.*
@@ -24,12 +22,15 @@ import org.openxava.model.*
         calTotalIngresos;
     ]
     egresos[
-        calAporteIESS;
+        calAporteIESSPersonal;
         prestamosQuirografarios;
         anticiposPrestamos;
         calTotalDescuentos;
     ]
-    calLiquidoPagar
+    aPagar[
+        calLiquidoPagar;
+        calAporteIESSPatronal;
+    ]
 """)
 class RolPagoDetalle extends Identifiable {
         
@@ -42,22 +43,21 @@ class RolPagoDetalle extends Identifiable {
     @ReferenceView("simple") @NoCreate @NoModify 
     Empleado empleado
 
-    @DisplaySize(5) @Required
-    Integer diasTrabajados 
-
+    @Required
+    int diasTrabajados 
+    
     @Depends("diasTrabajados") //Propiedad calculada
-    @DisplaySize(10)
-    BigDecimal getCalSueldoGanado(){
-        return (diasTrabajados) ? (empleado.sueldo/30*diasTrabajados).setScale(2, BigDecimal.ROUND_HALF_UP): 0
+    @Stereotype("MONEY")
+    BigDecimal getCalSueldoGanado() {
+        return diasTrabajados ? (empleado.sueldo/30*diasTrabajados).setScale(2, BigDecimal.ROUND_HALF_UP) : 0
     }
     
-    @DisplaySize(5)
-    Integer horas50
+    //@Column(length=2)  
+    int horas50
+    
+    //@Column(length=2) 
+    int horas100
 
-    @DisplaySize(5)
-    Integer horas100
-
-    @DisplaySize(10)
     @Depends("horas50,horas100") //Propiedad calculada
     BigDecimal getCalTotalHorasExtras(){
         BigDecimal val50 = horas50 ?:0
@@ -66,20 +66,21 @@ class RolPagoDetalle extends Identifiable {
     }
     
     @Depends("calTotalHorasExtras") //Propiedad calculada
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalValorHorasExtras(){
         return (empleado.sueldo/30/8*calTotalHorasExtras).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal comision
     
     @Depends("empleado") //Propiedad calculada
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalSubsidioFamiliar(){
-        Integer valCargaFamiliar = empleado.cargaFamiliar ?: 0
-        Preferencias p = Util.instance.getPreferencias()
-        return (valCargaFamiliar * p.valorCargaSubsidioFamiliar).setScale(2, BigDecimal.ROUND_HALF_UP)
+        // int valCargaFamiliar = empleado.cargaFamiliar ?: 0
+        // Preferencias p = new Preferencias().getPreferencias()
+        // return (valCargaFamiliar * p.valorCargaSubsidioFamiliar).setScale(2, BigDecimal.ROUND_HALF_UP)
+        return empleado.cargaFamiliar ? (empleado.cargaFamiliar * 20.00).setScale(2, BigDecimal.ROUND_HALF_UP) : 0
     }
 
     private BigDecimal getCalIngresosAntesBeneficiosSociales(){
@@ -88,62 +89,109 @@ class RolPagoDetalle extends Identifiable {
     }
 
     @Depends("calSueldoGanado, calValorHorasExtras, comision") //Propiedad calculada
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalDecimoTercero(){
         return (calIngresosAntesBeneficiosSociales / 12 ).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalDecimoCuarto(){
-        Preferencias p = Util.instance.getPreferencias()
-        return (p.salarioBasicoUnificado / 12).setScale(2, BigDecimal.ROUND_HALF_UP)
+        // Preferencias p = new Preferencias().getPreferencias()
+        // return (p.salarioBasicoUnificado / 12).setScale(2, BigDecimal.ROUND_HALF_UP)
+        return ( 394 / 12).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
     
     @Depends("calSueldoGanado, calValorHorasExtras, comision") //Propiedad calculada
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalVacaciones(){
-        return (calIngresosAntesBeneficiosSociales*12/24/12).setScale(2, BigDecimal.ROUND_HALF_UP)
+        return (calIngresosAntesBeneficiosSociales/24).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
     @Depends("calSueldoGanado, calValorHorasExtras, comision") //Propiedad calculada
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalFondosReserva(){
-        Preferencias p = Util.instance.getPreferencias()
-        return (calIngresosAntesBeneficiosSociales*p.porcentajeFondosReserva/100).setScale(2, BigDecimal.ROUND_HALF_UP)
+        // Preferencias p = new Preferencias().getPreferencias()
+        // return (calIngresosAntesBeneficiosSociales*p.porcentajeFondosReserva/100).setScale(2, BigDecimal.ROUND_HALF_UP)
+        return (calIngresosAntesBeneficiosSociales*8.33/100).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
     @Depends("calSueldoGanado, calValorHorasExtras, comision") //Propiedad calculada
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalTotalIngresos(){
         return calIngresosAntesBeneficiosSociales + calDecimoTercero + calDecimoCuarto + calVacaciones + calFondosReserva
     }
     
     @Depends("calTotalIngresos")
-    @DisplaySize(10)
-    BigDecimal getCalAporteIESS(){
-        Preferencias p = Util.instance.getPreferencias()
-        return (calTotalIngresos*p.aporteIESSPersonal/100).setScale(2, BigDecimal.ROUND_HALF_UP)
+    @Stereotype("MONEY")
+    BigDecimal getCalAporteIESSPersonal(){
+        // Preferencias p = new Preferencias().getPreferencias()
+        // return (calTotalIngresos*p.aporteIESSPersonal/100).setScale(2, BigDecimal.ROUND_HALF_UP)
+        return (calTotalIngresos*9.45/100).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal prestamosQuirografarios
     
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal anticiposPrestamos
     
-    @Depends("calAporteIESS,prestamosQuirografarios,anticiposPrestamos")
-    @DisplaySize(10)
+    @Depends("calAporteIESSPersonal,prestamosQuirografarios,anticiposPrestamos")
+    @Stereotype("MONEY")
     BigDecimal getCalTotalDescuentos(){
         BigDecimal valPQ = prestamosQuirografarios ?: 0
         BigDecimal valAP = anticiposPrestamos ?: 0
-        return (calAporteIESS + valPQ + valAP)
+        return (calAporteIESSPersonal + valPQ + valAP)
     }
     
     @Depends("calTotalIngresos,calTotalDescuentos")
-    @DisplaySize(10)
+    @Stereotype("MONEY")
     BigDecimal getCalLiquidoPagar(){
         return (calTotalIngresos - calTotalDescuentos)
     }
 
+    @Depends("calSueldoGanado, calValorHorasExtras, comision") //Propiedad calculada
+    @Stereotype("MONEY")
+    BigDecimal getCalAporteIESSPatronal(){
+        // Preferencias p = new Preferencias().getPreferencias()
+        // BigDecimal valor = calIngresosAntesBeneficiosSociales*p.aporteIESSPatronal/100
+        // return (valor).setScale(2, BigDecimal.ROUND_HALF_UP)
+        return (calIngresosAntesBeneficiosSociales*11.15/100).setScale(2, BigDecimal.ROUND_HALF_UP)
+    }
+
+    BigDecimal sueldoGanado
+    BigDecimal totalHorasExtras
+    BigDecimal valorHorasExtras
+    BigDecimal subsidioFamiliar
+    BigDecimal decimoTercero
+    BigDecimal decimoCuarto
+    BigDecimal vacaciones
+    BigDecimal fondosReserva
+    BigDecimal totalIngresos
+    BigDecimal totalDescuentos
+    BigDecimal liquidoPagar
+    BigDecimal valorAporteIESSPersonal
+    BigDecimal valorAporteIESSPatronal
+
     //TODO Grabar calSubsidioFamiliar
+    @PrePersist // Ejecutado justo antes de grabar el objeto por primera vez
+    private void preGrabar() throws Exception {
+        sincronizarDetalles()
+    }
+    
+    @PreUpdate
+    void sincronizarDetalles(){
+        sueldoGanado            = calSueldoGanado
+        totalHorasExtras        = calTotalHorasExtras
+        valorHorasExtras        = calValorHorasExtras
+        subsidioFamiliar        = calSubsidioFamiliar
+        decimoTercero           = calDecimoTercero
+        decimoCuarto            = calDecimoCuarto
+        vacaciones              = calVacaciones
+        fondosReserva           = calFondosReserva
+        totalIngresos           = calTotalIngresos
+        totalDescuentos         = calTotalDescuentos
+        liquidoPagar            = calLiquidoPagar
+        valorAporteIESSPersonal = calAporteIESSPersonal
+        valorAporteIESSPatronal = calAporteIESSPatronal
+    }
 }
