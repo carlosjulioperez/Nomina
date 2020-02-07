@@ -9,28 +9,18 @@ import org.openxava.model.*
 @Entity
 @View(members="""#
     empleado;
-    jornada[
-        diasTrabajados, horas50, horas100, calTotalHorasExtras
-    ];
-    ingresos[
-        calSueldoGanado; calValorHorasExtras; comision;
-        calSubsidioFamiliar;
-        calDecimoTercero;
-        calDecimoCuarto;
-        calVacaciones;
-        calFondosReserva;
-        calTotalIngresos;
-    ]
-    egresos[
-        calAporteIESSPersonal;
-        prestamosQuirografarios;
-        anticiposPrestamos;
-        calTotalDescuentos;
-    ]
-    aPagar[
-        calLiquidoPagar;
-        calAporteIESSPatronal;
-    ]
+    diasTrabajados; 
+    horas50, horas100; 
+    calTotalHorasExtras;
+    calSueldoGanado,        calAporteIESSPersonal;
+    calValorHorasExtras,    prestamosQuirografarios;
+    comision,               anticiposPrestamos;
+    calSubsidioFamiliar,    calTotalDescuentos;
+    calDecimoTercero,       calLiquidoPagar;
+    calDecimoCuarto,        calAporteIESSPatronal;
+    calVacaciones;
+    calFondosReserva;
+    calTotalIngresos;
 """)
 class RolPagoDetalle extends Identifiable {
         
@@ -43,19 +33,19 @@ class RolPagoDetalle extends Identifiable {
     @ReferenceView("simple") @NoCreate @NoModify 
     Empleado empleado
 
-    @Required
+    @Column(length=2) @Required
     int diasTrabajados 
     
-    @Depends("diasTrabajados") //Propiedad calculada
+    @Depends("empledo,diasTrabajados") //Propiedad calculada
     @Stereotype("MONEY")
     BigDecimal getCalSueldoGanado() {
         return diasTrabajados ? (empleado.sueldo/30*diasTrabajados).setScale(2, BigDecimal.ROUND_HALF_UP) : 0
     }
-    
-    //@Column(length=2)  
+
+    @Column(length=2)  
     int horas50
     
-    //@Column(length=2) 
+    @Column(length=2) 
     int horas100
 
     @Depends("horas50,horas100") //Propiedad calculada
@@ -74,12 +64,9 @@ class RolPagoDetalle extends Identifiable {
     @Stereotype("MONEY")
     BigDecimal comision
     
-    @Depends("empleado") //Propiedad calculada
+    @Depends("calSueldoGanado") //Propiedad calculada
     @Stereotype("MONEY")
     BigDecimal getCalSubsidioFamiliar(){
-        // int valCargaFamiliar = empleado.cargaFamiliar ?: 0
-        // Preferencias p = new Preferencias().getPreferencias()
-        // return (valCargaFamiliar * p.valorCargaSubsidioFamiliar).setScale(2, BigDecimal.ROUND_HALF_UP)
         return empleado.cargaFamiliar ? (empleado.cargaFamiliar * 20.00).setScale(2, BigDecimal.ROUND_HALF_UP) : 0
     }
 
@@ -94,9 +81,9 @@ class RolPagoDetalle extends Identifiable {
         return (calIngresosAntesBeneficiosSociales / 12 ).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
 
+    @Depends("calSueldoGanado") //Propiedad calculada
     @Stereotype("MONEY")
     BigDecimal getCalDecimoCuarto(){
-        // Preferencias p = new Preferencias().getPreferencias()
         // return (p.salarioBasicoUnificado / 12).setScale(2, BigDecimal.ROUND_HALF_UP)
         return ( 394 / 12).setScale(2, BigDecimal.ROUND_HALF_UP)
     }
@@ -177,7 +164,7 @@ class RolPagoDetalle extends Identifiable {
     private void preGrabar() throws Exception {
         sincronizarDetalles()
     }
-    
+
     @PreUpdate
     void sincronizarDetalles(){
         sueldoGanado            = calSueldoGanado

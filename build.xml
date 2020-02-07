@@ -134,6 +134,7 @@
 
     <target name="deleteClasses">
         <delete dir="${class.dir}/ec"/>
+        <delete dir="temp/"/>
 	</target>
 						
 </project>

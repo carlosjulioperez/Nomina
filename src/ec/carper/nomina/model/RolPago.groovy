@@ -12,6 +12,7 @@ import org.openxava.model.*
 """)
 @View(members=  """fecha;descripcion;detalles""")
 class RolPago extends Identifiable{
+    
     @Version
     private Integer version;
 

@@ -26,7 +26,7 @@ import org.openxava.model.*
             cargaFamiliar;
         }
     """),
-    @View(name="simple", members="apellidos,nombres,cargaFamiliar,sueldo")
+    @View(name="simple", members="apellidos,nombres;cargaFamiliar,sueldo")
 ])
 class Empleado extends Identifiable{
 
@@ -65,12 +65,12 @@ class Empleado extends Identifiable{
     Departamento departamento
 
     //@Digits(integer=4,fraction=2) 
-    @Stereotype("MONEY") @Required
+    // @Stereotype("MONEY") @Required
+    
+    @Required
     BigDecimal sueldo
 
     @Column(length=2) @Required
     int cargaFamiliar
-
-    Boolean pagoMensual13
 
 }

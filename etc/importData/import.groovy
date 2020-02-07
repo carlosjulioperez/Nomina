@@ -32,7 +32,9 @@ def lista = [
     "RUBRO",
     "EMPLEADO",
     "FORMULACION",
-    "FORMULACION_DETALLES"
+    "FORMULACION_DETALLES",
+    "ROLPAGO",
+    "ROLPAGODETALLE"
 ]
 lista.each{
     def archivo = "csv/"+ it +".csv"
