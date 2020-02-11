@@ -13,6 +13,7 @@
     	<class>org.openxava.web.editors.DiscussionComment</class>
         <properties>
             <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/> -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="javax.persistence.schema-generation.database.action" value="update"/>
             <property name="javax.persistence.create-database-schemas" value="true"/> 
             <property name="hibernate.default_schema" value="Nomina"/>
@@ -36,29 +37,29 @@
     -->   
                 
     <!-- JUnit Hypersonic -->
-    <persistence-unit name="junit">
-    	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-    	<class>org.openxava.web.editors.DiscussionComment</class>
-        <properties>
-			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
-			<property name="hibernate.default_schema" value="Nomina"/>
-			<property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost:1666"/>
-        </properties>
-    </persistence-unit>    
+    <!-- <persistence&#45;unit name="junit"> -->
+    <!-- 	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
+    <!-- 	<class>org.openxava.web.editors.DiscussionComment</class> -->
+    <!--     <properties> -->
+	<!-- 		<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/> -->
+	<!-- 		<property name="hibernate.default_schema" value="Nomina"/> -->
+	<!-- 		<property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost:1666"/> -->
+    <!--     </properties> -->
+    <!-- </persistence&#45;unit>     -->
     
 
-    <!-- JUnit PostgreSQL
+    <!-- JUnit PostgreSQL --> 
     <persistence-unit name="junit">
     	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     	<class>org.openxava.web.editors.DiscussionComment</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-		<property name="hibernate.default_schema" value="Ingenio"/>
+		<property name="hibernate.default_schema" value="Nomina"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.connection.username" value="postgres"/>
-            <property name="hibernate.connection.password" value=""/>		
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/eneragro_test"/>
+            <property name="hibernate.connection.password" value="postgres"/>		
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/nomina"/>
         </properties>
     </persistence-unit>    
-    --> 
+    
 </persistence>

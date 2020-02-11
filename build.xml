@@ -9,7 +9,8 @@
 	
     <!-- 2019-10-10 Agregado por carper -->
 	<property name="webinf.dir"    value="web/WEB-INF" />
-	<property name="sql.jar"       value="../OpenXava/lib/hsqldb.jar" />
+	<!-- <property name="sql.jar"       value="../OpenXava/lib/hsqldb.jar" /> -->
+    <property name="sql.jar"       value="${webinf.dir}/lib/postgresql-42.2.5.jar" />
 
     <!-- 
 	Compile all .java and .groovy 

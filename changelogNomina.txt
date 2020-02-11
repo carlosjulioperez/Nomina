@@ -1,5 +1,8 @@
 Nomina
 
+	* HSQLDB:
+		Versión 2.3.2
+
 	* Importar desde CSV:
 		Usando SQuirreL
 
